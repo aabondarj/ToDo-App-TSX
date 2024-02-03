@@ -1,12 +1,11 @@
-import React, {Component, ReactNode} from "react"
+import React, { Component } from 'react'
 import './app.css'
-import NewTaskForm from "../new-task-form"
-import TaskList from "../task-list"
-import Footer from "../footer"
-
+import NewTaskForm from '../new-task-form/'
+import TaskList from '../task-list'
+import Footer from '../footer'
 
 interface Props { }
-interface Task { 
+interface Task {
   [key: string]: any, description: string, created: string, completed: boolean, id: number 
 }
 interface AppState { todoData: Task[], filter: string }
@@ -107,7 +106,7 @@ export default class App extends Component<Props, AppState> {
     this.setState({todoData: newTodoData})
   }
 
-  render(): ReactNode {
+  render(): React.ReactNode {
     const {todoData, filter} = this.state
     const filteredTasks = this.getFilteredTasks(todoData, filter)
     const todoCount = todoData.length - todoData.filter((el) => el.completed === true).length

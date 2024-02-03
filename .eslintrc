@@ -8,5 +8,15 @@
   "rules": {
     "semi":"off",
     "eol-last":"off"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.tsx"], // указывает на файлы, к которым применяются следующие правила
+      "rules": {
+        "import/no-unresolved": "off", // отключает правило import/no-unresolved
+        "import/extensions": "off", // отключает правило import/extensions
+        "no-undef": "off" // отключает правило no-undef
+      }
+    }
+  ]
 }
