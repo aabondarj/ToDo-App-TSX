@@ -1,6 +1,6 @@
-import React, {Component, ReactNode} from "react"
+import React, { Component } from "react"
 import './footer.css'
-import TaskFilter from "../tasks-filter"
+import TaskFilter from '../tasks-filter'
 
 interface FooterProps {
   todoCount: number
@@ -10,13 +10,14 @@ interface FooterProps {
 }
 export default class Footer extends Component<FooterProps> {
   
-  render(): ReactNode {
-    const {todoCount, onClearCompleted, ...filters}: FooterProps = this.props
+  render(): React.ReactNode {
+    const { todoCount, onClearCompleted, ...filters }: FooterProps = this.props
     return (
       <footer className="footer">
-        <span className="todo-count">{todoCount} items left</span>
-        <TaskFilter {...filters}/>
+        <span className="todo-count">{ todoCount } items left</span>
+        <TaskFilter { ...filters }/>
         <button 
+        type="button"
         className="clear-completed"
         onClick={() => onClearCompleted()}>Clear completed</button>
       </footer>

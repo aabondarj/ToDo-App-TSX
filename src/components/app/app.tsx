@@ -1,82 +1,60 @@
 import React, { Component } from 'react'
 import './app.css'
-import NewTaskForm from '../new-task-form/'
+import NewTaskForm from '../new-task-form'
 import TaskList from '../task-list'
 import Footer from '../footer'
 
 interface Props { }
 interface Task {
-  [key: string]: any, description: string, created: string, completed: boolean, id: number 
+  [key: string]: any, description: string, created: string, completed: boolean, id: number
 }
 interface AppState { todoData: Task[], filter: string }
 
 export default class App extends Component<Props, AppState> {
-
   maxId = 100;
 
   state: AppState = {
     todoData: [
       this.createTodoTask('Completed task'),
       this.createTodoTask('Editing task'),
-      this.createTodoTask('Active task')
+      this.createTodoTask('Active task'),
     ],
-    filter: 'all'
+    filter: 'all',
   }
 
-  createTodoTask(description:string) { 
-    return { 
-      description,
-      created: 'created 17 seconds ago',
-      completed: false,
-      id: this.maxId++ 
-    } 
-  }
-
-  deleteTask = (id: number) => { 
-    this.setState(({todoData}) => { 
+  deleteTask = (id: number) => {
+    this.setState(({ todoData }) => {
       const idx = todoData.findIndex((el) => el.id === id)
 
       const newTodoData = [
         ...todoData.slice(0, idx),
-        ...todoData.slice(idx + 1)
+        ...todoData.slice(idx + 1),
       ]
 
-      return { 
-        todoData: newTodoData 
-      } 
-    } ) 
+      return {
+        todoData: newTodoData,
+      }
+    })
   }
 
   addTask = (text: string) => {
     const newItem = this.createTodoTask(text)
 
-    this.setState(({todoData}) => {
+    this.setState(({ todoData }) => {
       const newTodoData = [
         ...todoData,
-        newItem
+        newItem,
       ]
 
       return {
-        todoData: newTodoData
+        todoData: newTodoData,
       }
     })
   }
 
-  toogleProperty(arr: Task[], id: number, propName: string): Task[] {
-    const idx = arr.findIndex((el) => el.id === id)
-
-    const oldTask = arr[idx]
-    const newTask = {...oldTask, [propName]: !oldTask[propName]}
-
-    return [
-      ...arr.slice(0, idx),
-      newTask,
-      ...arr.slice(idx + 1)
-    ]
-  }
   completedTask = (id: number) => {
 
-    this.setState(( {todoData } ) => {
+    this.setState(( { todoData } ) => {
     
       return {
         todoData: this.toogleProperty(todoData, id, 'completed')
@@ -104,6 +82,28 @@ export default class App extends Component<Props, AppState> {
     const newTodoData = todoData.filter(task => !task.completed)
 
     this.setState({todoData: newTodoData})
+  }
+
+  toogleProperty(arr: Task[], id: number, propName: string): Task[] {
+    const idx = arr.findIndex((el) => el.id === id)
+
+    const oldTask = arr[idx]
+    const newTask = { ...oldTask, [propName]: !oldTask[propName] }
+
+    return [
+      ...arr.slice(0, idx),
+      newTask,
+      ...arr.slice(idx + 1),
+    ]
+  }
+
+  createTodoTask(description:string) { 
+    return { 
+      description,
+      created: 'created 17 seconds ago',
+      completed: false,
+      id: this.maxId++ 
+    } 
   }
 
   render(): React.ReactNode {

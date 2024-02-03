@@ -4,7 +4,12 @@
     "es6": true,
     "node": true
   },
-  "extends": ["airbnb"],
+  "plugins": ["prettier"],
+  "extends": [
+    "airbnb",
+    "eslint:recommended",
+    "plugin:prettier/recommended"
+  ],
   "rules": {
     "semi":"off",
     "eol-last":"off"
@@ -13,9 +18,11 @@
     {
       "files": ["*.tsx"], // указывает на файлы, к которым применяются следующие правила
       "rules": {
+        "prettier/prettier": "error",
         "import/no-unresolved": "off", // отключает правило import/no-unresolved
         "import/extensions": "off", // отключает правило import/extensions
-        "no-undef": "off" // отключает правило no-undef
+        "no-undef": "off", // отключает правило no-undef
+        "no-plusplus": "off"
       }
     }
   ]

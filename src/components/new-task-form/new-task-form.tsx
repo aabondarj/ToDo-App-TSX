@@ -1,7 +1,7 @@
-import { stat } from "fs";
-import React, {Component, ReactNode, ChangeEvent, FormEvent} from "react";
+import React, {Component, ReactNode, ChangeEvent, FormEvent} from 'react';
 import { ReactDOM } from "react"
 import './new-task-form.css'
+
 interface TaskFormProps {
   addTask: (text: string) => void
 }
