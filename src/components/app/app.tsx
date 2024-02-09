@@ -1,12 +1,17 @@
-import React, { Component } from 'react'
-import './app.css'
-import NewTaskForm from '../new-task-form'
-import TaskList from '../task-list'
-import Footer from '../footer'
+/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/state-in-constructor */
+/* eslint-disable class-methods-use-this */
+import React, { Component } from 'react';
+import './app.css';
+import NewTaskForm from '../new-task-form';
+import TaskList from '../task-list';
+import Footer from '../footer';
 
-interface Props { }
+interface Props {}
+
 interface Task {
-  [key: string]: any, description: string, created: string, completed: boolean, id: number
+  [key: string]: string | Date | boolean | number, description: string, created: Date, completed: boolean, id: number
 }
 interface AppState { todoData: Task[], filter: string }
 
@@ -23,7 +28,7 @@ export default class App extends Component<Props, AppState> {
   }
 
   deleteTask = (id: number) => {
-    this.setState(({ todoData }) => {
+    this.setState(({ todoData }: AppState) => {
       const idx = todoData.findIndex((el) => el.id === id)
 
       const newTodoData = [
@@ -40,7 +45,7 @@ export default class App extends Component<Props, AppState> {
   addTask = (text: string) => {
     const newItem = this.createTodoTask(text)
 
-    this.setState(({ todoData }) => {
+    this.setState(({ todoData }: AppState) => {
       const newTodoData = [
         ...todoData,
         newItem,
@@ -52,9 +57,27 @@ export default class App extends Component<Props, AppState> {
     })
   }
 
+  editDescription = (text: string, id: number) => {
+    this.setState(({todoData}: AppState)=>{
+      const idx = todoData.findIndex((el) => el.id === id)
+      const oldTask = todoData[idx]
+      const newTask = {...oldTask, description: text}
+
+      const newTodoData = [
+        ...todoData.slice(0, idx),
+        newTask,
+        ...todoData.slice(idx + 1),
+      ]
+      
+      return {
+        todoData: newTodoData
+      }
+    })
+  }
+
   completedTask = (id: number) => {
 
-    this.setState(( { todoData } ) => {
+    this.setState(( { todoData }: AppState ) => {
     
       return {
         todoData: this.toogleProperty(todoData, id, 'completed')
@@ -100,11 +123,13 @@ export default class App extends Component<Props, AppState> {
   createTodoTask(description:string) { 
     return { 
       description,
-      created: 'created 17 seconds ago',
+      created: new Date(),
       completed: false,
+      editing: false,
       id: this.maxId++ 
     } 
   }
+
 
   render(): React.ReactNode {
     const {todoData, filter} = this.state
@@ -118,7 +143,8 @@ export default class App extends Component<Props, AppState> {
         <TaskList 
           tasks = {filteredTasks}
           onDeleted = {this.deleteTask}
-          completedTask = {this.completedTask}/>
+          completedTask = {this.completedTask}
+          editDescription = {this.editDescription}/>
         <Footer 
         todoCount = {todoCount}
         filter = {filter}
@@ -129,3 +155,4 @@ export default class App extends Component<Props, AppState> {
     )
   }
 }
+

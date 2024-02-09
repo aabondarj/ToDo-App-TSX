@@ -4,15 +4,19 @@
     "es6": true,
     "node": true
   },
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "@typescript-eslint", "react"],
   "extends": [
     "airbnb",
     "eslint:recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended"
   ],
   "rules": {
     "semi":"off",
-    "eol-last":"off"
+    "eol-last":"off",
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],
+    "prefer-destructuring": "off"
   },
   "overrides": [
     {
@@ -25,5 +29,14 @@
         "no-plusplus": "off"
       }
     }
-  ]
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "tsx": true
+    },
+    "requireConfigFile": false
+  },
+  "parser": "@typescript-eslint/parser"
 }

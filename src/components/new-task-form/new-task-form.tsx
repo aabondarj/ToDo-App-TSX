@@ -1,5 +1,8 @@
+/* eslint-disable jsx-a11y/no-autofocus */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/state-in-constructor */
 import React, {Component, ReactNode, ChangeEvent, FormEvent} from 'react';
-import { ReactDOM } from "react"
+
 import './new-task-form.css'
 
 interface TaskFormProps {
@@ -36,7 +39,7 @@ export default class NewTaskForm extends Component<TaskFormProps> {
             placeholder="What needs to be done?" 
             autoFocus
             onChange={this.onLabelChange}
-            value={this.state.label}></input>
+            value={this.state.label} />
         </form>
       </header>
     )

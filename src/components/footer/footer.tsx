@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prefer-stateless-function */
 import React, { Component } from "react"
 import './footer.css'
 import TaskFilter from '../tasks-filter'
 
-interface FooterProps {
+type FooterProps = {
   todoCount: number
   filter: string
   onFilterChange: (filter: string) => void
@@ -11,7 +13,7 @@ interface FooterProps {
 export default class Footer extends Component<FooterProps> {
   
   render(): React.ReactNode {
-    const { todoCount, onClearCompleted, ...filters }: FooterProps = this.props
+    const { todoCount, onClearCompleted, ...filters } = this.props
     return (
       <footer className="footer">
         <span className="todo-count">{ todoCount } items left</span>
