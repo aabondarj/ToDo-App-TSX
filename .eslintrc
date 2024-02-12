@@ -4,7 +4,7 @@
     "es6": true,
     "node": true
   },
-  "plugins": ["prettier", "@typescript-eslint", "react"],
+  "plugins": ["prettier", "@typescript-eslint", "react", "jsx-a11y"],
   "extends": [
     "airbnb-typescript",
     "eslint:recommended",
@@ -16,7 +16,8 @@
     "semi":"off",
     "eol-last":"off",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],
-    "prefer-destructuring": "off"
+    "prefer-destructuring": "off",
+    "import/no-extraneous-dependencies":"off"
   },
   "overrides": [
     {
@@ -36,7 +37,8 @@
     "ecmaFeatures": {
       "tsx": true
     },
-    "requireConfigFile": false
+    "requireConfigFile": false,
+    "project": "./tsconfig.json"
   },
   "parser": "@typescript-eslint/parser"
 }
