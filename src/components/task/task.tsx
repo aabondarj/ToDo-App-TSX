@@ -47,7 +47,7 @@ export default class Task extends Component<TaskProps> {
     return (
       <>
         <div className="view">
-            <input className="toggle" type="checkbox" />
+            <input className="toggle" type="checkbox" onClick={completedTask} />
             <label>
               <span 
                 className={classNames}
@@ -63,7 +63,7 @@ export default class Task extends Component<TaskProps> {
               className="icon icon-destroy"
               onClick={onDeleted} />
         </div>
-        <form className='form-edit' onSubmit={this.onSubmit}>
+        <form className='form-edit' onSubmit={this.onSubmit} >
           <input type="text" className="edit" value={this.state.editText} onChange={this.handleEditChange} />
         </form>
     </>
