@@ -3,9 +3,10 @@
 import React, { ReactNode, Component } from 'react'
 import './task-list.css'
 import Task from "../task";
+import { check } from 'prettier';
 
 interface TaskListProps {
-  tasks: {description: string, created: Date, completed: boolean, id: number}[]
+  tasks: {description: string, created: Date, completed: boolean, checked: boolean,  id: number}[]
   onDeleted: (id: number) => void
   completedTask: (id: number) => void
   editDescription: (text: string, id: number) => void

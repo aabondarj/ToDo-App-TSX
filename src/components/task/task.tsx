@@ -13,6 +13,7 @@ interface TaskProps {
   description: string
   created: Date
   completed: boolean,
+  checked: boolean,
   onDeleted: () => void
   completedTask: () => void
   onEditClass: () => void
@@ -37,17 +38,19 @@ export default class Task extends Component<TaskProps> {
   }
 
   render(): ReactNode {
-    const {description, created, onDeleted, completedTask, completed, onEditClass,}: TaskProps = this.props;
+    const {description, created, onDeleted, completedTask, completed, checked, onEditClass,}: TaskProps = this.props;
 
     let classNames = 'description';
     if (completed) {
       classNames += ' completed'
+      
     }
+    
 
     return (
       <>
         <div className="view">
-            <input className="toggle" type="checkbox" onClick={completedTask} />
+            <input className="toggle" type="checkbox" onClick={completedTask} checked={checked}/>
             <label>
               <span 
                 className={classNames}

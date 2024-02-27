@@ -7,11 +7,12 @@ import './app.css';
 import NewTaskForm from '../new-task-form';
 import TaskList from '../task-list';
 import Footer from '../footer';
+import { check } from 'prettier';
 
 interface Props {}
 
 interface Task {
-  [key: string]: string | Date | boolean | number, description: string, created: Date, completed: boolean, id: number
+  [key: string]: string | Date | boolean | number, description: string, created: Date, completed: boolean, checked: boolean, id: number
 }
 interface AppState { todoData: Task[], filter: string }
 
@@ -83,6 +84,13 @@ export default class App extends Component<Props, AppState> {
         todoData: this.toogleProperty(todoData, id, 'completed')
       }
     })
+
+    this.setState(( { todoData }: AppState ) => {
+    
+      return {
+        todoData: this.toogleProperty(todoData, id, 'checked')
+      }
+    })
   }
 
   getFilteredTasks = (tasks: Task[], filter: string): Task[] => {
@@ -126,6 +134,7 @@ export default class App extends Component<Props, AppState> {
       created: new Date(),
       completed: false,
       editing: false,
+      checked: false,
       id: this.maxId++ 
     } 
   }
