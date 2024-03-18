@@ -2,166 +2,122 @@
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/state-in-constructor */
 /* eslint-disable class-methods-use-this */
-import React, { Component } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import './app.css';
 import NewTaskForm from '../new-task-form';
 import TaskList from '../task-list';
 import Footer from '../footer';
-import { check } from 'prettier';
-
-interface Props {}
 
 interface Task {
-  [key: string]: string | Date | boolean | number, description: string, created: Date, completed: boolean, checked: boolean, id: number
+  [key: string]: string | Date | boolean | number,
+  description: string,
+  created: Date,
+  completed: boolean,
+  checked: boolean,
+  id: number
 }
-interface AppState { todoData: Task[], filter: string }
 
-export default class App extends Component<Props, AppState> {
-  maxId = 100;
+const App: React.FC = () => {
 
-  state: AppState = {
-    todoData: [
-      this.createTodoTask('Completed task'),
-      this.createTodoTask('Editing task'),
-      this.createTodoTask('Active task'),
-    ],
-    filter: 'all',
-  }
+  const [maxId, setMaxId] = useState<number>(0);
 
-  deleteTask = (id: number) => {
-    this.setState(({ todoData }: AppState) => {
-      const idx = todoData.findIndex((el) => el.id === id)
-
-      const newTodoData = [
-        ...todoData.slice(0, idx),
-        ...todoData.slice(idx + 1),
-      ]
-
-      return {
-        todoData: newTodoData,
-      }
-    })
-  }
-
-  addTask = (text: string) => {
-    const newItem = this.createTodoTask(text)
-
-    this.setState(({ todoData }: AppState) => {
-      const newTodoData = [
-        ...todoData,
-        newItem,
-      ]
-
-      return {
-        todoData: newTodoData,
-      }
-    })
-  }
-
-  editDescription = (text: string, id: number) => {
-    this.setState(({todoData}: AppState)=>{
-      const idx = todoData.findIndex((el) => el.id === id)
-      const oldTask = todoData[idx]
-      const newTask = {...oldTask, description: text}
-
-      const newTodoData = [
-        ...todoData.slice(0, idx),
-        newTask,
-        ...todoData.slice(idx + 1),
-      ]
-      
-      return {
-        todoData: newTodoData
-      }
-    })
-  }
-
-  completedTask = (id: number) => {
-
-    this.setState(( { todoData }: AppState ) => {
-    
-      return {
-        todoData: this.toogleProperty(todoData, id, 'completed')
-      }
-    })
-
-    this.setState(( { todoData }: AppState ) => {
-    
-      return {
-        todoData: this.toogleProperty(todoData, id, 'checked')
-      }
-    })
-  }
-
-  getFilteredTasks = (tasks: Task[], filter: string): Task[] => {
-    switch (filter) {
-      case 'active':
-        return tasks.filter(task => !task.completed)
-      case 'completed':
-        return tasks.filter(task => task.completed)
-      default:
-        return tasks
-    }
-  }
-
-  changeFilter = (filter: string) => {
-    this.setState({ filter })
-  }
-
-  clearCompleted = () => {
-    const {todoData} = this.state
-    const newTodoData = todoData.filter(task => !task.completed)
-
-    this.setState({todoData: newTodoData})
-  }
-
-  toogleProperty(arr: Task[], id: number, propName: string): Task[] {
-    const idx = arr.findIndex((el) => el.id === id)
-
-    const oldTask = arr[idx]
-    const newTask = { ...oldTask, [propName]: !oldTask[propName] }
-
-    return [
-      ...arr.slice(0, idx),
-      newTask,
-      ...arr.slice(idx + 1),
-    ]
-  }
-
-  createTodoTask(description:string) { 
-    return { 
+  const createTodoTask = (description:string): Task => {
+    const newTask: Task = { 
       description,
       created: new Date(),
       completed: false,
-      editing: false,
       checked: false,
-      id: this.maxId++ 
-    } 
+      id: maxId
+    };
+    setMaxId(prevId => prevId + 1); // Инкрементируем maxId для следующей задачи
+    return newTask;
   }
 
+  const [todoData, setTodoData] = useState<Task[]>([])
 
-  render(): React.ReactNode {
-    const {todoData, filter} = this.state
-    const filteredTasks = this.getFilteredTasks(todoData, filter)
-    const todoCount = todoData.length - todoData.filter((el) => el.completed === true).length
+  useEffect(() => {
+    setTodoData([...todoData, createTodoTask('Completed task')]);
+  }, []);
 
-    return (
-      <React.StrictMode>
-        <NewTaskForm addTask={this.addTask}/>
-        <section className="main">
+  const [filter, setFilter] = useState<string>('all');
+ 
+
+  const deleteTask = (id: number) => {
+    setTodoData(todoData && todoData.filter(task => task.id !== id));
+  }
+
+  const addTask = (text: string) => {
+    const newItem = createTodoTask(text);
+    if (todoData) {
+      setTodoData([...todoData, newItem]);
+    }
+  }
+
+  const editDescription = (text: string, id: number) => {
+    if (todoData) {
+      const updatedData = todoData.map(task =>
+        task.id === id ? { ...task, description: text } : task
+      );
+      setTodoData(updatedData);
+    }
+  }
+
+  const completedTask = (id: number) => {
+
+    if (todoData) {
+      const updatedData = todoData.map(task =>
+        task.id === id ? { ...task, completed: !task.completed, checked: !task.checked } : task
+      );
+      setTodoData(updatedData);
+    }
+    
+  }
+
+  const getFilteredTasks = (tasks: Task[], newFilter: string): Task[] => {
+    switch (newFilter) {
+      case 'active':
+        return tasks.filter(task => !task.completed);
+      case 'completed':
+        return tasks.filter(task => task.completed);
+      default:
+        return tasks;
+    }
+  }
+
+  const changeFilter = (newFilter: string) => {
+    setFilter(newFilter);
+  }
+
+  const clearCompleted = () => {
+    if (todoData) {
+      const newTodoData = todoData.filter(task => !task.completed);
+      setTodoData(newTodoData);
+    }
+  }
+
+  
+  
+  const filteredTasks = todoData ? getFilteredTasks(todoData, filter) : [];
+  const todoCount = todoData ? todoData.length - todoData.filter(el => el.completed === true).length : 0;
+
+  return (
+    <React.StrictMode>
+      <NewTaskForm addTask={addTask}/>
+      <section className="main">
         <TaskList 
           tasks = {filteredTasks}
-          onDeleted = {this.deleteTask}
-          completedTask = {this.completedTask}
-          editDescription = {this.editDescription}/>
+          onDeleted = {deleteTask}
+          completedTask = {completedTask}
+          editDescription = {editDescription}/>
         <Footer 
-        todoCount = {todoCount}
-        filter = {filter}
-        onFilterChange = {this.changeFilter}
-        onClearCompleted = {this.clearCompleted}/>
-        </section>
-      </React.StrictMode>
-    )
-  }
+          todoCount = {todoCount}
+          filter = {filter}
+          onFilterChange = {changeFilter}
+          onClearCompleted = {clearCompleted}/>
+      </section>
+    </React.StrictMode>
+  );
 }
 
+export default App;

@@ -1,48 +1,40 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/state-in-constructor */
-import React, {Component, ReactNode, ChangeEvent, FormEvent} from 'react';
 
-import './new-task-form.css'
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import './new-task-form.css';
 
 interface TaskFormProps {
-  addTask: (text: string) => void
+  addTask: (text: string) => void;
 }
 
-export default class NewTaskForm extends Component<TaskFormProps> {
+const NewTaskForm: React.FC<TaskFormProps> = ({ addTask }) => {
+  const [label, setLabel] = useState<string>('');
 
-  state = {
-    label: ''
-  }
+  const onLabelChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setLabel(e.target.value);
+  };
 
-  onLabelChange = (e: ChangeEvent<HTMLInputElement>) => {
-    this.setState(({
-      label: e.target.value
-    }))
-  }
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    addTask(label);
+    setLabel('');
+  };
 
-  onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    this.props.addTask(this.state.label)
-    this.setState({
-      label: ''
-    })
-  }
+  return (
+    <header className="header">
+      <h1>todos</h1>
+      <form className="new-todo-form" onSubmit={onSubmit}>
+        <input 
+          className="new-todo" 
+          placeholder="What needs to be done?" 
+          autoFocus
+          onChange={onLabelChange}
+          value={label} />
+      </form>
+    </header>
+  );
+};
 
-  render(): ReactNode {
-    return (
-      <header className="header">
-        <h1>todos</h1>
-        <form className="new-todo-form" onSubmit={this.onSubmit}>
-          <input 
-            className="new-todo" 
-            placeholder="What needs to be done?" 
-            autoFocus
-            onChange={this.onLabelChange}
-            value={this.state.label} />
-        </form>
-      </header>
-    )
-  }
-
-}
+export default NewTaskForm;
