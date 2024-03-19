@@ -19,20 +19,20 @@
 	transform: rotate(90deg);
 } */
 
-.toggle + label:before {
+/* .toggle + label:before {
 	content: '❯';
 	font-size: 22px;
 	color: #e6e6e6;
-	padding: 10px 27px 10px 27px;
-}
+	padding: 10px 15px 10px 10px;
+} */
 
-.toggle:checked + label:before {
+.toggle:checked + .label:before {
 	color: #737373;
 }
 
 .todo-list li {
 	position: relative;
-	font-size: 24px;
+	font-size: 18px;
 	border-bottom: 1px solid #ededed;
 }
 
@@ -75,28 +75,24 @@
 	opacity: 0;
 }
 
-.todo-list li .toggle + label {
-	/*
-		Firefox requires `#` to be escaped - https://bugzilla.mozilla.org/show_bug.cgi?id=922433
-		IE and Edge requires *everything* to be escaped to render, so we do that instead of just the `#` - https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7157459/
-	*/
+.todo-list li .toggle + .label {
 	background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23ededed%22%20stroke-width%3D%223%22/%3E%3C/svg%3E');
 	background-repeat: no-repeat;
 	background-position: center left;
 }
 
-.todo-list li .toggle:checked + label {
+.todo-list li .toggle:checked + .label {
 	background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23bddad5%22%20stroke-width%3D%223%22/%3E%3Cpath%20fill%3D%22%235dc2af%22%20d%3D%22M72%2025L42%2071%2027%2056l-4%204%2020%2020%2034-52z%22/%3E%3C/svg%3E');
 }
 
-.todo-list li label {
+.todo-list li .label {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 15px 85px 15px 60px;
+	padding: 15px 85px 15px 50px;
 }
 
-.todo-list li label .created {
+.todo-list li .label .created {
 	font-size: 13px;
 	color: gray;
 }
@@ -108,12 +104,8 @@
 	transition: color 0.4s;
 	font-weight: 400;
 	color: #4d4d4d;
+	cursor: pointer;
 }
-
-/* .todo-list li.completed label .description {
-	color: #cdcdcd;
-	text-decoration: line-through;
-} */
 
 .completed{
 	color: #cdcdcd;
@@ -160,6 +152,38 @@
 
 .todo-list li.editing:last-child {
 	margin-bottom: -1px;
+}
+
+.form-edit {
+	margin: 0;
+  }
+  
+.timer {
+display: flex;
+vertical-align: middle;
+align-items:center;
+	}
+  
+  .start-button,
+  .stop-button {
+	margin-left: 5px;
+	cursor: pointer;
+  }
+
+  .icon-play::after {
+    content: "▶";
+	color: #cc9a9a;
+	vertical-align:middle ;
+	height: 100%;
+}
+
+.icon-pause::after {
+    content: "⏸";
+}
+
+.timer span {
+	align-self: center;
+	margin-left: 5px;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
