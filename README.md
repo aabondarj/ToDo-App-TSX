@@ -2,4 +2,4 @@
 
 ## TypeScript
 
-[ToDo App](https://to-do-app-tsx-new.vercel.app)
+[ToDo App](https://todo-theta-pied.vercel.app/)
