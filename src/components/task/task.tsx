@@ -55,12 +55,16 @@ const Task: React.FC<TaskProps> = ({
 
   const handleCompletedTask = () => {
     completedTask()
-
+    if (completed) {
+      onStartTimer()
+    } else (
+      onStopTimer()
+    )
   }
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-          e.preventDefault(); // Предотвращаем стандартное поведение, чтобы избежать повторной отправки формы
+          e.preventDefault();
           // editDescription(editText);
           onEditClass();
         }

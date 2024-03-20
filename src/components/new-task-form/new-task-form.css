@@ -1,3 +1,20 @@
+
 .new-todo-form {
     margin-bottom: 0;
+    display: flex;
+    width: 100%;
+}
+
+.new-todo.label {
+    width: 70%;
+}
+
+.new-todo.min {
+    width: 15%;
+    padding-left: 10px;
+}
+
+.new-todo.sec {
+    width: 15%;
+    padding-left: 10px;
 }
